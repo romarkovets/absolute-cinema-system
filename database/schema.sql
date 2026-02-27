@@ -38,9 +38,9 @@ CREATE TABLE "session" (
                            movie_id INTEGER REFERENCES movie(movie_id) ON DELETE CASCADE,
                            hall_id INTEGER REFERENCES hall(hall_id) ON DELETE CASCADE,
                            start_time TIME NOT NULL,
-                           start_date DATE NOT NULL,
+                           session_date DATE NOT NULL,
                            price DECIMAL(10,2) NOT NULL,
-                           UNIQUE(hall_id, start_date, start_time)
+                           UNIQUE(hall_id, session_date, start_time)
 );
 
 CREATE TABLE "user" (

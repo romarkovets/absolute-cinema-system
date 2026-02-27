@@ -31,7 +31,7 @@ INSERT INTO hall (hall_number, hall_type) VALUES
                                               (3, 2),
                                               (4, 3);
 
-INSERT INTO "session" (movie_id, hall_id, start_date, start_time, price) VALUES
+INSERT INTO "session" (movie_id, hall_id, session_date, start_time, price) VALUES
                                                                              (1, 4, '2024-11-20', '18:30:00', 550.00),
                                                                              (1, 4, '2024-11-20', '21:00:00', 550.00),
                                                                              (2, 1, '2024-11-20', '19:00:00', 400.00),
