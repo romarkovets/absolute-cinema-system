@@ -8,8 +8,8 @@
     - оценка: 6.33ч
     - факт: 5ч
 - JDBC:
-    - оценка:
-    - факт:
+    - оценка: 8ч
+    - факт: 6ч
 - Backend на SpringBoot + Hibernate:
     - оценка:
     - факт:
@@ -22,3 +22,5 @@
 - Docker:
     - оценка:
     - факт:
+
+[SonarCloud Project](https://sonarcloud.io/project/configuration?id=romarkovets_absolute-cinema-system)
