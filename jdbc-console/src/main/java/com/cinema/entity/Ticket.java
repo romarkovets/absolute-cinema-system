@@ -12,6 +12,9 @@ public class Ticket {
     public Ticket() {}
 
     public Ticket(int sessionId, int userId, int seatNumber) {
+        if (seatNumber <= 0) {
+            throw new IllegalArgumentException("Номер места должен быть положительным числом");
+        }
         this.sessionId = sessionId;
         this.userId = userId;
         this.seatNumber = seatNumber;
@@ -28,7 +31,12 @@ public class Ticket {
     public void setUserId(int userId) { this.userId = userId; }
 
     public int getSeatNumber() { return seatNumber; }
-    public void setSeatNumber(int seatNumber) { this.seatNumber = seatNumber; }
+    public void setSeatNumber(int seatNumber) {
+        if (seatNumber <= 0) {
+            throw new IllegalArgumentException("Номер места должен быть положительным числом");
+        }
+        this.seatNumber = seatNumber;
+    }
 
     public LocalDateTime getPurchaseDate() { return purchaseDate; }
     public void setPurchaseDate(LocalDateTime purchaseDate) { this.purchaseDate = purchaseDate; }

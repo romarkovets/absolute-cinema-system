@@ -5,10 +5,19 @@ import com.cinema.util.DatabaseUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class TicketDAO {
+    private static final Logger LOGGER = Logger.getLogger(TicketDAO.class.getName());
 
     public void create(Ticket ticket) throws SQLException {
+        LOGGER.info("Покупка билета: сеанс " + ticket.getSessionId() + ", место " + ticket.getSeatNumber());
+
+        if (isSeatTaken(ticket.getSessionId(), ticket.getSeatNumber())) {
+            LOGGER.warning("Место " + ticket.getSeatNumber() + " уже занято");
+            throw new SQLException("Место " + ticket.getSeatNumber() + " уже занято");
+        }
+
         String sql = "INSERT INTO ticket (session_id, user_id, seat_number, purchase_date) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -17,10 +26,24 @@ public class TicketDAO {
             stmt.setInt(3, ticket.getSeatNumber());
             stmt.setTimestamp(4, Timestamp.valueOf(ticket.getPurchaseDate()));
             stmt.executeUpdate();
+
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 ticket.setTicketId(generatedKeys.getInt(1));
+                LOGGER.info("Билет куплен, ID: " + ticket.getTicketId());
             }
+        }
+    }
+
+    private boolean isSeatTaken(int sessionId, int seatNumber) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM ticket WHERE session_id = ? AND seat_number = ?";
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, sessionId);
+            stmt.setInt(2, seatNumber);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getInt(1) > 0;
         }
     }
 
@@ -103,11 +126,13 @@ public class TicketDAO {
     }
 
     public void delete(int id) throws SQLException {
+        LOGGER.info("Возврат билета ID: " + id);
         String sql = "DELETE FROM ticket WHERE ticket_id = ?";
         try (Connection conn = DatabaseUtil.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
+            LOGGER.info("Билет возвращен");
         }
     }
 
