@@ -22,3 +22,5 @@
 - Docker:
     - оценка:
     - факт:
+
+[SonarCloud Project](https://sonarcloud.io/project/configuration?id=romarkovets_absolute-cinema-system)
