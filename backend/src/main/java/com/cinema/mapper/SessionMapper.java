@@ -2,7 +2,6 @@ package com.cinema.mapper;
 
 import com.cinema.entity.Session;
 import com.cinema.dto.SessionDto;
-import com.cinema.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 public class SessionMapper {
     private final MovieMapper movieMapper;
     private final HallMapper hallMapper;
-    private final TicketRepository ticketRepository;
 
     public SessionDto toDto(Session session) {
         if (session == null) return null;
@@ -23,16 +21,6 @@ public class SessionMapper {
         dto.setSessionDate(session.getSessionDate());
         dto.setStartTime(session.getStartTime());
         dto.setPrice(session.getPrice());
-
-        int soldTickets = ticketRepository.countBySessionId(session.getSessionId());
-        int totalSeats = switch (session.getHall().getHallType()) {
-            case 1 -> 120;
-            case 2 -> 30;
-            case 3 -> 200;
-            default -> 0;
-        };
-        dto.setAvailableSeats(totalSeats - soldTickets);
-
         return dto;
     }
 

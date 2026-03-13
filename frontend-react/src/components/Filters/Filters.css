@@ -1,0 +1,31 @@
+.filters-paper {
+  background-color: white;
+  margin: 16px auto;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+  max-width: 1400px;
+}
+
+.filters-paper .MuiAutocomplete-root {
+  width: 100%;
+  min-width: 280px;
+}
+
+.filters-paper .MuiFormControl-root {
+  width: 100%;
+  min-width: 200px;
+}
+
+@media (max-width: 900px) {
+  .filters-paper {
+    margin: 8px;
+  }
+
+  .filters-paper .MuiAutocomplete-root {
+    min-width: 100%;
+  }
+
+  .filters-paper .MuiFormControl-root {
+    min-width: 100%;
+  }
+}

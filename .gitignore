@@ -27,4 +27,6 @@ bin/
 .vscode/
 
 ### Mac OS ###
-.DS_Store
+.DS_Storebackend/target/
+*.iml
+package-lock.json

@@ -35,16 +35,6 @@ public class SessionController {
         return sessionService.getSessionById(id);
     }
 
-    @GetMapping("/by-date")
-    public Page<SessionDto> getSessionsByDate(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by("startTime"));
-        return sessionService.getSessionsByDate(date, pageable);
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SessionDto createSession(@RequestBody SessionDto sessionDto) {
