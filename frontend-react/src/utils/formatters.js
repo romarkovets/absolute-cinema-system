@@ -1,13 +1,13 @@
 export const formatDate = (dateArray) => {
   if (!dateArray) return '';
   const [year, month, day] = dateArray;
-  return `${day}.${month}.${year}`;
+  return `${day.toString().padStart(2, '0')}.${month.toString().padStart(2, '0')}.${year}`;
 };
 
 export const formatTime = (timeArray) => {
   if (!timeArray) return '';
   const [hours, minutes] = timeArray;
-  return `${hours}:${minutes.toString().padStart(2, '0')}`;
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 };
 
 export const formatDateTime = (dateArray, timeArray) => {

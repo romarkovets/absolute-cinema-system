@@ -26,6 +26,14 @@ import SessionForm from '../../components/SessionForm/SessionForm';
 import { formatDateTime, formatPrice } from '../../utils/formatters';
 import './SessionsPage.css';
 
+const getTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 function SessionsPage() {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,7 +42,7 @@ function SessionsPage() {
   const [pageSize, setPageSize] = useState(3);
   const [totalPages, setTotalPages] = useState(0);
   const [filters, setFilters] = useState({
-    date: '',
+    date: getTodayDate(),
     movieId: '',
     hallId: ''
   });

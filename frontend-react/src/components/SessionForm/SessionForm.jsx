@@ -18,11 +18,19 @@ import { movieService } from '../../services/movieService';
 import { hallService } from '../../services/hallService';
 import './SessionForm.css';
 
+const getTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 const SessionForm = ({ open, onClose, session }) => {
   const [formData, setFormData] = useState({
     movieId: '',
     hallId: '',
-    sessionDate: '',
+    sessionDate: getTodayDate(),
     startTime: '',
     price: ''
   });
@@ -53,7 +61,7 @@ const SessionForm = ({ open, onClose, session }) => {
         movieId: session.movie?.movieId || '',
         hallId: session.hall?.hallId || '',
         sessionDate: session.sessionDate ?
-          `${session.sessionDate[0]}-${String(session.sessionDate[1]).padStart(2, '0')}-${String(session.sessionDate[2]).padStart(2, '0')}` : '',
+          `${session.sessionDate[0]}-${String(session.sessionDate[1]).padStart(2, '0')}-${String(session.sessionDate[2]).padStart(2, '0')}` : getTodayDate(),
         startTime: session.startTime ?
           `${String(session.startTime[0]).padStart(2, '0')}:${String(session.startTime[1]).padStart(2, '0')}` : '',
         price: session.price || ''
@@ -62,7 +70,7 @@ const SessionForm = ({ open, onClose, session }) => {
       setFormData({
         movieId: '',
         hallId: '',
-        sessionDate: '',
+        sessionDate: getTodayDate(),
         startTime: '',
         price: ''
       });

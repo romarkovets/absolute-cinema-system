@@ -17,7 +17,12 @@ import './Filters.css';
 const Filters = ({ filters, setFilters }) => {
   const [movies, setMovies] = useState([]);
   const [halls, setHalls] = useState([]);
-  const [localFilters, setLocalFilters] = useState(filters);
+
+  const [localFilters, setLocalFilters] = useState(() => ({
+    date: filters.date || '',
+    movieId: filters.movieId || '',
+    hallId: filters.hallId || ''
+  }));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +45,11 @@ const Filters = ({ filters, setFilters }) => {
   };
 
   const handleReset = () => {
-    const resetFilters = { date: '', movieId: '', hallId: '' };
+    const resetFilters = {
+      date: '',
+      movieId: '',
+      hallId: ''
+    };
     setLocalFilters(resetFilters);
     setFilters(resetFilters);
   };
@@ -57,17 +66,26 @@ const Filters = ({ filters, setFilters }) => {
             onChange={(e) => setLocalFilters({ ...localFilters, date: e.target.value })}
             slotProps={{ inputLabel: { shrink: true } }}
             size="medium"
+            placeholder="Все даты"
           />
         </Grid>
 
         <Grid item xs={12} md={5}>
           <FormControl fullWidth size="medium">
-            <InputLabel id="movie-select-label">Фильм</InputLabel>
+            <InputLabel id="movie-select-label" shrink={true}>Фильм</InputLabel>
             <Select
               labelId="movie-select-label"
               value={localFilters.movieId || ''}
               onChange={(e) => setLocalFilters({ ...localFilters, movieId: e.target.value })}
               label="Фильм"
+              displayEmpty
+              renderValue={(selected) => {
+                if (selected === '') {
+                  return <span>Все фильмы</span>;
+                }
+                const movie = movies.find(m => m.movieId === selected);
+                return movie?.title || selected;
+              }}
             >
               <MenuItem value="">Все фильмы</MenuItem>
               {movies.map((movie) => (
@@ -81,12 +99,20 @@ const Filters = ({ filters, setFilters }) => {
 
         <Grid item xs={12} md={3}>
           <FormControl fullWidth size="medium">
-            <InputLabel id="hall-select-label">Зал</InputLabel>
+            <InputLabel id="hall-select-label" shrink={true}>Зал</InputLabel>
             <Select
               labelId="hall-select-label"
               value={localFilters.hallId || ''}
               onChange={(e) => setLocalFilters({ ...localFilters, hallId: e.target.value })}
               label="Зал"
+              displayEmpty
+              renderValue={(selected) => {
+                if (selected === '') {
+                  return <span>Все залы</span>;
+                }
+                const hall = halls.find(h => h.hallId === selected);
+                return hall ? `Зал ${hall.hallNumber} (${hall.hallTypeName})` : selected;
+              }}
             >
               <MenuItem value="">Все залы</MenuItem>
               {halls.map((hall) => (
