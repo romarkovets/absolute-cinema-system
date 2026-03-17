@@ -1,0 +1,25 @@
+<div class="pagination" *ngIf="totalPages > 0">
+  <div class="pagination-info">
+    Показаны {{ startItem }} - {{ endItem }} из {{ totalElements }}
+  </div>
+
+  <div class="pagination-controls">
+    <select [ngModel]="size" (ngModelChange)="onPageSizeChange($event)">
+      <option *ngFor="let s of sizes" [value]="s">{{ s }} на стр.</option>
+    </select>
+
+    <button (click)="goToPage(0)" [disabled]="page === 0">⏮️</button>
+    <button (click)="goToPage(page - 1)" [disabled]="page === 0">◀</button>
+
+    <span class="pages">
+      <button *ngFor="let p of getPages()"
+              (click)="goToPage(p)"
+              [class.active]="p === page">
+        {{ p + 1 }}
+      </button>
+    </span>
+
+    <button (click)="goToPage(page + 1)" [disabled]="page === totalPages - 1">▶</button>
+    <button (click)="goToPage(totalPages - 1)" [disabled]="page === totalPages - 1">⏭️</button>
+  </div>
+</div>

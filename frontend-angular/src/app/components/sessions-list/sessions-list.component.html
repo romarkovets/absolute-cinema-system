@@ -1,0 +1,138 @@
+<div class="sessions-page">
+  <div class="header">
+    <h1>Кинотеатр «АБСОЛЮТ»</h1>
+    <button class="create-btn" (click)="openCreateModal()">
+      <span class="icon">+</span> Добавить сеанс
+    </button>
+  </div>
+
+  <div class="filters">
+    <div class="filter-item">
+      <label for="dateFilter">Дата:</label>
+      <input id="dateFilter" type="date" [(ngModel)]="filters.date" (change)="applyFilters()">
+    </div>
+
+    <div class="filter-item">
+      <label for="movieFilter">Фильм:</label>
+      <select id="movieFilter" [(ngModel)]="filters.movieId" (change)="applyFilters()">
+        <option value="">Все фильмы</option>
+        <option *ngFor="let movie of movies" [value]="movie.movieId">{{ movie.title }}</option>
+      </select>
+    </div>
+
+    <div class="filter-item">
+      <label for="hallFilter">Зал:</label>
+      <select id="hallFilter" [(ngModel)]="filters.hallId" (change)="applyFilters()">
+        <option value="">Все залы</option>
+        <option *ngFor="let hall of halls" [value]="hall.hallId">Зал {{ hall.hallNumber }} ({{ hall.hallTypeName }})</option>
+      </select>
+    </div>
+
+    <button class="reset-btn" (click)="resetFilters()">Сбросить</button>
+  </div>
+
+  <div class="table-container" *ngIf="sessions.length > 0">
+    <table class="sessions-table">
+      <thead>
+      <tr>
+        <th style="width: 20%">Фильм</th>
+        <th style="width: 30%">Актеры</th>
+        <th style="width: 15%">Зал</th>
+        <th style="width: 20%">Дата и время</th>
+        <th style="width: 10%">Цена</th>
+        <th style="width: 5%">Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let session of sessions">
+        <td>{{ getMovieTitle(session) }}</td>
+        <td>{{ getActors(session) }}</td>
+        <td>{{ getHallDisplay(session) }}</td>
+        <td>{{ formatDateTime(session) }}</td>
+        <td>{{ formatPrice(session.price) }}</td>
+        <td>
+          <button class="icon-btn edit" (click)="openEditModal(session)">✏️</button>
+          <button class="icon-btn delete" (click)="deleteSession(session)">🗑️</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="empty-state" *ngIf="sessions.length === 0">
+    Нет сеансов
+  </div>
+
+  <div class="pagination-bar" *ngIf="totalPages > 0">
+    <div class="page-size">
+      <label for="pageSizeSelect" class="visually-hidden">Размер страницы</label>
+      <select id="pageSizeSelect" (change)="onPageSizeChange($event)">
+        <option *ngFor="let s of pageSizes" [value]="s" [selected]="s === size">{{ s }}</option>
+      </select>
+      <span>на странице</span>
+    </div>
+
+    <div class="pages">
+      <button (click)="changePage(-1)" [disabled]="page === 0">←</button>
+      <span>{{ page + 1 }} из {{ totalPages }}</span>
+      <button (click)="changePage(1)" [disabled]="page === totalPages - 1">→</button>
+    </div>
+
+    <div class="total">
+      Всего: {{ totalElements }}
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="showModal">
+    <div class="modal-content">
+      <h2>{{ editingSession ? 'Редактирование' : 'Новый' }} сеанс</h2>
+
+      <div class="form-group">
+        <label for="modalMovieId">Фильм:</label>
+        <select id="modalMovieId" [(ngModel)]="formData.movieId">
+          <option *ngFor="let movie of movies" [value]="movie.movieId">{{ movie.title }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="modalHallId">Зал:</label>
+        <select id="modalHallId" [(ngModel)]="formData.hallId">
+          <option *ngFor="let hall of halls" [value]="hall.hallId">Зал {{ hall.hallNumber }} ({{ hall.hallTypeName }})</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="modalDate">Дата:</label>
+        <input id="modalDate" type="date" [(ngModel)]="formData.date">
+      </div>
+
+      <div class="form-group">
+        <label for="modalTime">Время:</label>
+        <input id="modalTime" type="time" [(ngModel)]="formData.time">
+      </div>
+
+      <div class="form-group">
+        <label for="modalPrice">Цена:</label>
+        <input id="modalPrice" type="number" [(ngModel)]="formData.price">
+      </div>
+
+      <div class="modal-actions">
+        <button class="save-btn" (click)="saveSession()">Сохранить</button>
+        <button class="cancel-btn" (click)="closeModal()">Отмена</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+</style>

@@ -1,0 +1,30 @@
+<div class="filters">
+  <div class="filter-group">
+    <label for="movieFilter">Фильм:</label>
+    <select id="movieFilter" [(ngModel)]="filters.movieId" (ngModelChange)="applyFilters()">
+      <option [ngValue]="null">Все фильмы</option>
+      <option *ngFor="let movie of movies" [ngValue]="movie.id">
+        {{ movie.title }}
+      </option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label for="hallFilter">Зал:</label>
+    <select id="hallFilter" [(ngModel)]="filters.hallId" (ngModelChange)="applyFilters()">
+      <option [ngValue]="null">Все залы</option>
+      <option *ngFor="let hall of halls" [ngValue]="hall.id">
+        {{ hall.name }}
+      </option>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label for="dateFilter">Дата:</label>
+    <input id="dateFilter" type="date" [(ngModel)]="filters.date" (ngModelChange)="applyFilters()">
+  </div>
+
+  <div class="filter-actions">
+    <button (click)="resetFilters()">Сбросить</button>
+  </div>
+</div>

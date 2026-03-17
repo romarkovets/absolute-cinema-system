@@ -47,5 +47,14 @@ services:
     environment:
       VITE_API_URL: http://localhost:8080/api
 
+  frontend-angular:
+    build: ./frontend-angular
+    container_name: cinema-frontend-angular
+    ports:
+      - "4200:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
 volumes:
   postgres-data:
