@@ -14,13 +14,13 @@
     - оценка: 20ч
     - факт: 20ч
 - Angular:
-    - оценка:
-    - факт:
+    - оценка: 10ч
+    - факт: 15ч
 - React:
     - оценка: 8ч
     - факт: 10ч
 - Docker:
-    - оценка:
-    - факт:
+    - оценка: 5ч
+    - факт: 4ч
 
 [SonarCloud Project](https://sonarcloud.io/project/configuration?id=romarkovets_absolute-cinema-system)
