@@ -3,7 +3,6 @@ FROM node:20-alpine AS build
 WORKDIR /app
 
 COPY package*.json ./
-
 RUN npm install
 
 COPY angular.json ./
@@ -16,10 +15,8 @@ FROM nginx:stable-alpine
 
 COPY --from=build /app/dist/frontend-angular/browser /usr/share/nginx/html
 
-RUN addgroup -g 1001 -S appuser && adduser -S appuser -u 1001 && \
-    chown -R appuser:appuser /usr/share/nginx/html
-
-USER appuser
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+    chmod -R 755 /usr/share/nginx/html
 
 EXPOSE 80
 

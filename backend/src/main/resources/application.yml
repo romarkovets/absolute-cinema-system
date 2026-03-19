@@ -19,5 +19,3 @@ logging:
     com.cinema: DEBUG
     org.springframework.web: INFO
     org.hibernate: ERROR
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql: TRACE
